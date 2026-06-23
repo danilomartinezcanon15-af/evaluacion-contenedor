@@ -3,10 +3,14 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 import { useFonts } from 'expo-font';
 import { SpaceMono_400Regular } from '@expo-google-fonts/space-mono';
 import { Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+import { useState } from 'react';
 import MotoCard from './components/MotoCard';
+import DetalleScreen from './screens/DetalleScreen';
 import motos from './data/motos.json';
 
 export default function App() {
+  const [motoSeleccionada, setMotoSeleccionada] = useState(null);
+
   const [fontsLoaded] = useFonts({
     SpaceMono_400Regular,
     Montserrat_700Bold,
@@ -14,9 +18,14 @@ export default function App() {
 
   if (!fontsLoaded) return null;
 
-  const handleSeleccionarMoto = (moto) => {
-    console.log('Moto seleccionada:', moto.nombre);
-  };
+  if (motoSeleccionada) {
+    return (
+      <DetalleScreen
+        moto={motoSeleccionada}
+        onVolver={() => setMotoSeleccionada(null)}
+      />
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +34,7 @@ export default function App() {
         data={motos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <MotoCard moto={item} onPress={handleSeleccionarMoto} />
+          <MotoCard moto={item} onPress={setMotoSeleccionada} />
         )}
         contentContainerStyle={styles.lista}
       />
