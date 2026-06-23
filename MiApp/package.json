@@ -10,7 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@expo-google-fonts/montserrat": "^0.4.2",
+    "@expo-google-fonts/space-mono": "^0.4.2",
     "expo": "^56.0.12",
+    "expo-font": "^56.0.7",
     "react": "^19.2.7",
     "react-native": "^0.80.3"
   }
