@@ -1,8 +1,6 @@
-
-
 services:
   app:
-    build: .
+    image: node:99-alpine
     volumes:
       - .:/app
     ports:
