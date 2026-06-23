@@ -1,12 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 import { useFonts } from 'expo-font';
-import {
-  SpaceMono_400Regular,
-} from '@expo-google-fonts/space-mono';
-import {
-  Montserrat_700Bold,
-} from '@expo-google-fonts/montserrat';
+import { SpaceMono_400Regular } from '@expo-google-fonts/space-mono';
+import { Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+import MotoCard from './components/MotoCard';
+import motos from './data/motos.json';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -16,12 +14,23 @@ export default function App() {
 
   if (!fontsLoaded) return null;
 
+  const handleSeleccionarMoto = (moto) => {
+    console.log('Moto seleccionada:', moto.nombre);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Concesionario</Text>
-      <Text style={styles.datos}>Precio: $15.000.000</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.titulo}>🏍 Concesionario</Text>
+      <FlatList
+        data={motos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <MotoCard moto={item} onPress={handleSeleccionarMoto} />
+        )}
+        contentContainerStyle={styles.lista}
+      />
       <StatusBar style="light" />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -29,19 +38,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2C2C2C',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    paddingHorizontal: 16,
   },
   titulo: {
     fontFamily: 'Montserrat_700Bold',
-    fontSize: 28,
+    fontSize: 26,
     color: '#FFFFFF',
-    marginBottom: 10,
+    textAlign: 'center',
+    marginVertical: 20,
   },
-  datos: {
-    fontFamily: 'SpaceMono_400Regular',
-    fontSize: 16,
-    color: '#FFFFFF',
+  lista: {
+    paddingBottom: 20,
   },
 });
